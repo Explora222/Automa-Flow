@@ -86,26 +86,31 @@ const Promise = () => {
   const promiseCards = [
     {
       number: '01',
+      image: '/promise-01.jpg',
       title: 'Flexibility',
       description: 'Extensible with REST API and SDK - Low-code customization and API-first integrations.',
     },
     {
       number: '02',
+      image: '/promise-02.jpg',
       title: 'Reliability',
       description: 'Proven infrastructure with 99.9% uptime, resilient architecture, and full disaster recovery.',
     },
     {
       number: '03',
+      image: '/promise-03.jpg',
       title: 'Scalability',
       description: 'Cloud or on-premises options supporting any process volume — from 10 users to 10,000.',
     },
     {
       number: '04',
+      image: '/promise-04.jpg',
       title: 'Security',
       description: 'Enterprise-grade encryption, auditability, access control, and POPIA-ready compliance.',
     },
     {
       number: '05',
+      image: '/promise-05.jpg',
       title: 'Simplicity',
       description: 'A low-code environment that allows any team to build and manage workflows with minimal IT dependency.',
     },
@@ -160,25 +165,36 @@ const Promise = () => {
           {promiseCards.map((card, index) => (
             <div
               key={index}
-              className={`group relative bg-dark border border-white/10 rounded-xl p-8 hover-lift cursor-pointer ${
+              className={`group relative bg-dark border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer ${
                 index === 4 ? 'sm:col-span-2 lg:col-span-1' : ''
               }`}
             >
-              {/* Number */}
-              <div className="flex items-center gap-4 mb-6">
-                <span className="text-4xl font-bold text-yellow">
-                  {card.number}
-                </span>
-                <div className="h-px flex-1 bg-white/10 group-hover:bg-yellow/30 transition-colors duration-300" />
+              {/* Image */}
+              <div className="relative h-44 overflow-hidden">
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-transparent" />
+                
+                {/* Number */}
+                <div className="absolute top-4 left-4 flex items-center gap-3">
+                  <span className="text-3xl font-bold text-yellow">
+                    {card.number}
+                  </span>
+                </div>
               </div>
 
               {/* Content */}
-              <h3 className="text-2xl font-semibold mb-3 group-hover:text-yellow transition-colors duration-300">
-                {card.title}
-              </h3>
-              <p className="text-white/60 leading-relaxed">
-                {card.description}
-              </p>
+              <div className="p-6">
+                <h3 className="text-2xl font-semibold mb-3 group-hover:text-yellow transition-colors duration-300">
+                  {card.title}
+                </h3>
+                <p className="text-white/60 leading-relaxed">
+                  {card.description}
+                </p>
+              </div>
 
               {/* Corner accent */}
               <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden rounded-tr-xl">

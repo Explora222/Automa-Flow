@@ -1,15 +1,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  Globe, 
-  Layers, 
-  RefreshCw, 
-  Shield, 
-  Zap, 
-  Clock, 
-  TrendingUp 
-} from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -70,43 +61,43 @@ const WhyChoose = () => {
   const features = [
     {
       number: '01',
-      icon: Globe,
+      image: '/whychoose-01.jpg',
       title: 'Local Presence, Global Standards',
       description: 'Developed and supported in South Africa, trusted by organisations that demand world-class performance with local expertise.',
     },
     {
       number: '02',
-      icon: Layers,
+      image: '/whychoose-02.jpg',
       title: 'Any Process. Any Business',
       description: 'From HR onboarding and procurement to claims, compliance, and approvals — automate it all on one platform.',
     },
     {
       number: '03',
-      icon: RefreshCw,
+      image: '/whychoose-03.jpg',
       title: 'Seamless Integration',
       description: 'Connect effortlessly with your existing systems — ERP, CRM, HR, or custom apps.',
     },
     {
       number: '04',
-      icon: Shield,
+      image: '/whychoose-04.jpg',
       title: 'Stable and Reliable',
       description: 'Built on modern, resilient infrastructure with guaranteed 99.9% uptime and full disaster recovery protection.',
     },
     {
       number: '05',
-      icon: Zap,
+      image: '/whychoose-05.jpg',
       title: 'Built for Business Continuity',
       description: 'Redundant architecture ensures your workflows run without interruption, even under peak load.',
     },
     {
       number: '06',
-      icon: Clock,
+      image: '/whychoose-06.jpg',
       title: 'Compliance Ready',
       description: 'Designed to meet South African data protection laws and ISO security standards.',
     },
     {
       number: '07',
-      icon: TrendingUp,
+      image: '/whychoose-07.jpg',
       title: 'Faster Time to Value',
       description: 'Go from pilot to production in weeks, not months. Low-code design means your teams can automate without heavy IT dependency.',
     },
@@ -137,33 +128,39 @@ const WhyChoose = () => {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {features.map((feature, index) => {
-            const Icon = feature.icon;
-            const isLarge = index === 6; // Last item spans full width on mobile
+            const isLarge = index === 6;
             
             return (
               <div
                 key={index}
-                className={`group relative bg-black border border-white/10 rounded-xl p-8 hover-lift cursor-pointer transition-all duration-500 ${
+                className={`group relative bg-black border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer transition-all duration-500 ${
                   isLarge ? 'md:col-span-2 lg:col-span-1' : ''
                 }`}
               >
-                {/* Number */}
-                <span className="absolute top-6 right-6 text-5xl font-bold text-white/5 group-hover:text-yellow/10 transition-colors duration-500">
-                  {feature.number}
-                </span>
-
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-lg bg-yellow/10 flex items-center justify-center mb-6 group-hover:bg-yellow group-hover:scale-110 transition-all duration-500">
-                  <Icon size={28} className="text-yellow group-hover:text-black transition-colors duration-500" />
+                {/* Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                  
+                  {/* Number */}
+                  <span className="absolute top-4 right-4 text-4xl font-bold text-white/20 group-hover:text-yellow/40 transition-colors duration-500">
+                    {feature.number}
+                  </span>
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-yellow transition-colors duration-300">
-                  {feature.title}
-                </h3>
-                <p className="text-white/60 leading-relaxed">
-                  {feature.description}
-                </p>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-yellow transition-colors duration-300">
+                    {feature.title}
+                  </h3>
+                  <p className="text-white/60 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
 
                 {/* Hover glow */}
                 <div className="absolute inset-0 rounded-xl bg-yellow/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />

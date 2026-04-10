@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import {
-  Phone,
-  Mail,
-  Globe,
-  MapPin,
-  Linkedin,
-  Twitter,
-  Facebook
+import { 
+  Phone, 
+  Mail, 
+  Globe, 
+  MapPin, 
+  Linkedin, 
+  Twitter, 
+  Facebook 
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -99,10 +99,18 @@ const Footer = () => {
           {/* Column 1: About */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <span className="text-2xl font-bold tracking-tight">
-                Automa<span className="text-yellow">Flow</span>
-              </span>
-              <span className="text-xs text-yellow align-super">TM</span>
+              <button
+                onClick={() => scrollToSection('#home')}
+                className="focus:outline-none focus:ring-2 focus:ring-yellow/50 rounded-lg transition-transform duration-300 hover:scale-105"
+                aria-label="Go to homepage"
+              >
+                <img
+                  src="/logo.jpg"
+                  alt="AutomaFlow Logo"
+                  className="h-8 sm:h-10 w-auto object-contain rounded-lg bg-white"
+                  style={{ maxWidth: '180px' }}
+                />
+              </button>
             </div>
             <p className="text-white/50 text-sm mb-4">
               A Product of Bluevine Data (Pty) Ltd

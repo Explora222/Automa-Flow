@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Sparkles, X } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,7 +11,9 @@ const CTA = () => {
   const bgRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const decorRef = useRef<HTMLDivElement>(null);
-  const [showContactForm, setShowContactForm] = useState(false);
+  
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [formType, setFormType] = useState<'demo' | 'sales'>('demo');
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -78,10 +80,19 @@ const CTA = () => {
     return () => ctx.revert();
   }, []);
 
+  const openDemoForm = () => {
+    setFormType('demo');
+    setIsFormOpen(true);
+  };
+
+  const openSalesForm = () => {
+    setFormType('sales');
+    setIsFormOpen(true);
+  };
+
   return (
     <section
       ref={sectionRef}
-      id="cta"
       className="relative py-24 overflow-hidden"
     >
       {/* Yellow Background */}
@@ -120,14 +131,14 @@ const CTA = () => {
           {/* CTA Buttons */}
           <div className="flex flex-wrap justify-center gap-4">
             <button
-              onClick={() => setShowContactForm(true)}
+              onClick={openDemoForm}
               className="bg-black text-white font-semibold px-8 py-4 rounded-lg flex items-center gap-2 hover:bg-black/80 transition-all duration-300 hover:scale-105 hover:shadow-xl group"
             >
               Request a Demo
               <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
             </button>
             <button
-              onClick={() => setShowContactForm(true)}
+              onClick={openSalesForm}
               className="border-2 border-black text-black font-semibold px-8 py-4 rounded-lg hover:bg-black hover:text-white transition-all duration-300 hover:scale-105"
             >
               Contact Sales
@@ -137,29 +148,11 @@ const CTA = () => {
       </div>
 
       {/* Contact Form Modal */}
-      {showContactForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-            onClick={() => setShowContactForm(false)}
-          />
-
-          {/* Modal Content */}
-          <div className="relative w-full max-w-lg z-10">
-            {/* Close Button */}
-            <button
-              onClick={() => setShowContactForm(false)}
-              className="absolute -top-12 right-0 text-white hover:text-white/70 transition-colors"
-            >
-              <X size={28} />
-            </button>
-
-            {/* Contact Form */}
-            <ContactForm />
-          </div>
-        </div>
-      )}
+      <ContactForm
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        formType={formType}
+      />
     </section>
   );
 };

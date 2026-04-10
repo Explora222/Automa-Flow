@@ -153,14 +153,14 @@ const Overview = () => {
           {/* Right Column */}
           <div ref={bodyRef} className="space-y-6">
             <p className="text-lg text-white/80 leading-relaxed">
-              AutomaFlow is a powerful, South African-built business process automation
-              platform that empowers organisations to digitise, automate, and scale their
+              AutomaFlow is a powerful, South African built business process automation 
+              platform that empowers organisations to digitise, automate, and scale their 
               operations with confidence.
             </p>
             <p className="text-lg text-white/80 leading-relaxed">
-              Built with enterprise-grade security, reliability, and performance,
-              AutomaFlow transforms paper-based or manual processes into intelligent
-              digital workflows — fast.
+              Built with enterprise grade security, reliability, and performance, 
+              AutomaFlow transforms paper based or manual processes into intelligent 
+              digital workflows fast.
             </p>
           </div>
         </div>

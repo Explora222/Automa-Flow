@@ -1,13 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  Workflow, 
-  FileText, 
-  Plug, 
-  BarChart3,
-  Check
-} from 'lucide-react';
+import { Check } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -68,7 +62,7 @@ const WhatWeOffer = () => {
   const offerings = [
     {
       number: '01',
-      icon: Workflow,
+      image: '/offer-01.jpg',
       title: 'Workflow Automation',
       description: 'Automate any process using a visual, drag-and-drop workflow designer — from simple approvals to complex multi-departmental workflows.',
       features: [
@@ -82,7 +76,7 @@ const WhatWeOffer = () => {
     },
     {
       number: '02',
-      icon: FileText,
+      image: '/offer-02.jpg',
       title: 'Digital Forms & Data Capture',
       description: 'Transform manual forms into dynamic, intelligent mobile-friendly forms accessible anywhere.',
       features: [
@@ -96,7 +90,7 @@ const WhatWeOffer = () => {
     },
     {
       number: '03',
-      icon: Plug,
+      image: '/offer-03.jpg',
       title: 'Integrations & Extensibility',
       description: 'AutomaFlow connects to the tools your business already uses for seamless data flow.',
       features: [
@@ -110,7 +104,7 @@ const WhatWeOffer = () => {
     },
     {
       number: '04',
-      icon: BarChart3,
+      image: '/offer-04.jpg',
       title: 'Monitoring & Analytics',
       description: 'Gain real-time visibility across your operations with powerful dashboards and insights.',
       features: [
@@ -149,29 +143,31 @@ const WhatWeOffer = () => {
           ref={cardsRef}
           className="grid md:grid-cols-2 gap-8"
         >
-          {offerings.map((offering, index) => {
-            const Icon = offering.icon;
-            return (
-              <div
-                key={index}
-                className="group relative bg-black border border-white/10 rounded-xl p-8 hover-lift cursor-pointer overflow-hidden"
-              >
-                {/* Yellow accent bar on hover */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-yellow transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+          {offerings.map((offering, index) => (
+            <div
+              key={index}
+              className="group relative bg-black border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer"
+            >
+              {/* Yellow accent bar on hover */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-yellow transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-10" />
 
-                {/* Header */}
-                <div className="flex items-start justify-between mb-6">
-                  <div>
-                    <span className="text-5xl font-bold text-white/10 group-hover:text-yellow/20 transition-colors duration-500">
-                      {offering.number}
-                    </span>
-                  </div>
-                  <div className="w-14 h-14 rounded-lg bg-yellow/10 flex items-center justify-center group-hover:bg-yellow group-hover:rotate-[10deg] group-hover:scale-110 transition-all duration-500">
-                    <Icon size={28} className="text-yellow group-hover:text-black transition-colors duration-500" />
-                  </div>
-                </div>
+              {/* Image */}
+              <div className="relative h-52 overflow-hidden">
+                <img
+                  src={offering.image}
+                  alt={offering.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                
+                {/* Number */}
+                <span className="absolute top-4 right-4 text-5xl font-bold text-white/10 group-hover:text-yellow/20 transition-colors duration-500">
+                  {offering.number}
+                </span>
+              </div>
 
-                {/* Content */}
+              {/* Content */}
+              <div className="p-6">
                 <h3 className="text-2xl font-semibold mb-3 group-hover:text-yellow transition-colors duration-300">
                   {offering.title}
                 </h3>
@@ -180,7 +176,7 @@ const WhatWeOffer = () => {
                 </p>
 
                 {/* Features */}
-                <ul className="space-y-2">
+                <ul className="grid grid-cols-2 gap-2">
                   {offering.features.map((feature, fIndex) => (
                     <li
                       key={fIndex}
@@ -195,8 +191,8 @@ const WhatWeOffer = () => {
                   ))}
                 </ul>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>

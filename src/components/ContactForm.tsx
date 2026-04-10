@@ -1,211 +1,186 @@
-import { useState, type FormEvent } from 'react';
-import emailjs from '@emailjs/browser';
-import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { X, Send, User, Mail, Phone, Building, MessageSquare } from 'lucide-react';
 
-interface FormData {
-  name: string;
-  email: string;
-  company: string;
-  message: string;
+interface ContactFormProps {
+  isOpen: boolean;
+  onClose: () => void;
+  formType: 'demo' | 'sales';
 }
 
-interface FormStatus {
-  type: 'idle' | 'loading' | 'success' | 'error';
-  message: string;
-}
-
-const ContactForm = () => {
-  const [formData, setFormData] = useState<FormData>({
+const ContactForm = ({ isOpen, onClose, formType }: ContactFormProps) => {
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     company: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [status, setStatus] = useState<FormStatus>({
-    type: 'idle',
-    message: '',
-  });
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setStatus({ type: 'loading', message: 'Sending...' });
-
-    try {
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          company: formData.company,
-          message: formData.message,
-          to_email: 'sales@automaflow.co.za',
-        },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
-
-      setStatus({
-        type: 'success',
-        message: 'Message sent! We\'ll get back to you soon.',
-      });
-      setFormData({ name: '', email: '', company: '', message: '' });
-
-      setTimeout(() => {
-        setStatus({ type: 'idle', message: '' });
-      }, 5000);
-    } catch (error) {
-      console.error('Email error:', error);
-      setStatus({
-        type: 'error',
-        message: 'Failed to send. Please try again.',
-      });
-
-      setTimeout(() => {
-        setStatus({ type: 'idle', message: '' });
-      }, 5000);
-    }
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value,
-    }));
+    });
   };
 
-  if (status.type === 'success') {
-    return (
-      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-        <div className="flex flex-col items-center justify-center text-center py-8">
-          <CheckCircle size={64} className="text-green-400 mb-4" />
-          <h3 className="text-2xl font-semibold text-white mb-2">
-            Message Sent!
-          </h3>
-          <p className="text-white/70 mb-6">{status.message}</p>
-          <button
-            onClick={() => setStatus({ type: 'idle', message: '' })}
-            className="btn-primary"
-          >
-            Send Another Message
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    
+    // Reset after showing success
+    setTimeout(() => {
+      setIsSubmitted(false);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: '',
+      });
+      onClose();
+    }, 2000);
+  };
+
+  if (!isOpen) return null;
+
+  const title = formType === 'demo' ? 'Request a Demo' : 'Contact Sales';
+  const subtitle = formType === 'demo' 
+    ? 'See AutomaFlow in action. Schedule a personalized demo with our team.'
+    : 'Get in touch with our sales team for pricing and custom solutions.';
 
   return (
-    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
-      <h3 className="text-2xl font-semibold text-white mb-2">
-        Get in Touch
-      </h3>
-      <p className="text-white/70 mb-6">
-        Fill out the form below and we'll get back to you shortly.
-      </p>
-
-      {status.type === 'error' && (
-        <div className="flex items-center gap-2 bg-red-500/20 border border-red-500/50 rounded-lg p-4 mb-6">
-          <AlertCircle size={20} className="text-red-400 flex-shrink-0" />
-          <p className="text-red-200 text-sm">{status.message}</p>
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-white/80 mb-2"
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      
+      {/* Modal */}
+      <div className="relative w-full max-w-lg bg-dark border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-scale-in">
+        {/* Header */}
+        <div className="relative bg-yellow p-6">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 w-8 h-8 bg-black/20 hover:bg-black/40 rounded-full flex items-center justify-center transition-colors duration-300"
+            aria-label="Close form"
           >
-            Full Name <span className="text-yellow">*</span>
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow/50 focus:border-transparent transition-all"
-            placeholder="John Doe"
-          />
+            <X size={18} className="text-black" />
+          </button>
+          
+          <h3 className="text-2xl font-bold text-black pr-10">{title}</h3>
+          <p className="text-black/70 mt-1">{subtitle}</p>
         </div>
 
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-white/80 mb-2"
-          >
-            Email Address <span className="text-yellow">*</span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow/50 focus:border-transparent transition-all"
-            placeholder="john@company.com"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="company"
-            className="block text-sm font-medium text-white/80 mb-2"
-          >
-            Company Name
-          </label>
-          <input
-            type="text"
-            id="company"
-            name="company"
-            value={formData.company}
-            onChange={handleChange}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow/50 focus:border-transparent transition-all"
-            placeholder="Your Company (Pty) Ltd"
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="message"
-            className="block text-sm font-medium text-white/80 mb-2"
-          >
-            Message <span className="text-yellow">*</span>
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            required
-            value={formData.message}
-            onChange={handleChange}
-            rows={4}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow/50 focus:border-transparent transition-all resize-none"
-            placeholder="Tell us about your needs..."
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={status.type === 'loading'}
-          className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {status.type === 'loading' ? (
-            <>
-              <Loader2 size={18} className="animate-spin" />
-              Sending...
-            </>
+        {/* Form Content */}
+        <div className="p-6 max-h-[70vh] overflow-y-auto">
+          {isSubmitted ? (
+            <div className="text-center py-8">
+              <div className="w-16 h-16 bg-yellow/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Send size={28} className="text-yellow" />
+              </div>
+              <h4 className="text-xl font-semibold mb-2">Thank You!</h4>
+              <p className="text-white/60">We&apos;ll be in touch shortly.</p>
+            </div>
           ) : (
-            <>
-              <Send size={18} />
-              Send Message
-            </>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Name */}
+              <div className="relative">
+                <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-black border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors"
+                />
+              </div>
+
+              {/* Email */}
+              <div className="relative">
+                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-black border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors"
+                />
+              </div>
+
+              {/* Phone */}
+              <div className="relative">
+                <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full bg-black border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors"
+                />
+              </div>
+
+              {/* Company */}
+              <div className="relative">
+                <Building size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                <input
+                  type="text"
+                  name="company"
+                  placeholder="Company Name"
+                  value={formData.company}
+                  onChange={handleChange}
+                  className="w-full bg-black border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors"
+                />
+              </div>
+
+              {/* Message */}
+              <div className="relative">
+                <MessageSquare size={18} className="absolute left-4 top-4 text-white/40" />
+                <textarea
+                  name="message"
+                  placeholder="Your Message (Optional)"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full bg-black border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors resize-none"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-yellow text-black font-semibold py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-yellow/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    {formType === 'demo' ? 'Request Demo' : 'Send Message'}
+                  </>
+                )}
+              </button>
+            </form>
           )}
-        </button>
-      </form>
+        </div>
+      </div>
     </div>
   );
 };

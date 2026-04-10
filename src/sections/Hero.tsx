@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Shield, Clock, Award } from 'lucide-react';
+import ContactForm from '../components/ContactForm';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,6 +15,8 @@ const Hero = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const trustRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
+  
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -193,22 +196,17 @@ const Hero = () => {
             ref={subheadlineRef}
             className="text-lg sm:text-xl text-white/70 leading-relaxed mb-10 max-w-2xl"
           >
-            From manual to magical. automate workflows across HR, procurement, finance,
-            and compliance with South Africa's trusted automation platform.
+            From manual to magical. automate workflows across HR, procurement, finance, 
+            and compliance with South Africa&apos;s trusted automation platform.
           </p>
 
           {/* CTA Buttons */}
           <div ref={ctaRef} className="flex flex-wrap gap-4 mb-12">
             <button
-              onClick={() => {
-                const aboutSection = document.querySelector('#about');
-                if (aboutSection) {
-                  aboutSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+              onClick={() => setIsFormOpen(true)}
               className="btn-primary flex items-center gap-2 group"
             >
-              Get Started
+              Request a Demo
               <ArrowRight
                 size={18}
                 className="transition-transform duration-300 group-hover:translate-x-1"
@@ -236,6 +234,13 @@ const Hero = () => {
 
       {/* Decorative Elements */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-10" />
+
+      {/* Contact Form Modal */}
+      <ContactForm
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        formType="demo"
+      />
     </section>
   );
 };

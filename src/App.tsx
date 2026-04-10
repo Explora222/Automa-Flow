@@ -12,6 +12,7 @@ import Industries from './sections/Industries';
 import Stats from './sections/Stats';
 import Support from './sections/Support';
 import CTA from './sections/CTA';
+import Testimonials from './sections/Testimonials';
 import Footer from './sections/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -40,6 +41,7 @@ function App() {
       <Stats />
       <Support />
       <CTA />
+      <Testimonials />
       <Footer />
     </div>
   );

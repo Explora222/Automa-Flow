@@ -1,13 +1,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  BookOpen, 
-  Users, 
-  RefreshCw, 
-  Activity, 
-  Headphones 
-} from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -86,27 +79,27 @@ const Support = () => {
 
   const supportFeatures = [
     {
-      icon: BookOpen,
+      image: '/support-01.jpg',
       title: 'Comprehensive Onboarding',
       description: 'User training for all user levels to get your team up to speed quickly.',
     },
     {
-      icon: Users,
+      image: '/support-02.jpg',
       title: 'Certified Implementation Partners',
       description: 'Customised deployments and advanced integrations by experts.',
     },
     {
-      icon: RefreshCw,
+      image: '/support-03.jpg',
       title: 'Continuous Updates',
       description: 'New integrations and capabilities released regularly.',
     },
     {
-      icon: Activity,
+      image: '/support-04.jpg',
       title: '24/7 System Monitoring',
       description: 'Optimal uptime and performance with proactive monitoring.',
     },
     {
-      icon: Headphones,
+      image: '/support-05.jpg',
       title: 'Dedicated Local Support',
       description: 'Guaranteed SLA response times from our South African team.',
     },
@@ -137,25 +130,32 @@ const Support = () => {
           ref={cardsRef}
           className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16"
         >
-          {supportFeatures.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <div
-                key={index}
-                className="group bg-black border border-white/10 rounded-xl p-6 hover-lift cursor-pointer text-center"
-              >
-                <div className="w-14 h-14 rounded-full bg-yellow/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow group-hover:scale-110 transition-all duration-500">
-                  <Icon size={24} className="text-yellow group-hover:text-black transition-colors duration-500" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-yellow transition-colors duration-300">
+          {supportFeatures.map((feature, index) => (
+            <div
+              key={index}
+              className="group bg-black border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer"
+            >
+              {/* Image */}
+              <div className="relative h-36 overflow-hidden">
+                <img
+                  src={feature.image}
+                  alt={feature.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+              </div>
+
+              {/* Content */}
+              <div className="p-4 text-center">
+                <h3 className="text-base font-semibold mb-2 group-hover:text-yellow transition-colors duration-300">
                   {feature.title}
                 </h3>
                 <p className="text-white/60 text-sm leading-relaxed">
                   {feature.description}
                 </p>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
 
         {/* Quote */}

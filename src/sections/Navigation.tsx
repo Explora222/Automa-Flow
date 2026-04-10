@@ -6,7 +6,7 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-  const logoRef = useRef<HTMLButtonElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
 
@@ -65,26 +65,29 @@ const Navigation = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled
           ? 'bg-black/90 backdrop-blur-lg border-b border-white/10'
           : 'bg-transparent'
-        }`}
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <button
-            ref={logoRef}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-3 cursor-pointer"
-          >
-            <div className="relative">
-              <span className="text-2xl font-bold tracking-tight">
-                Automa<span className="text-yellow">Flow</span>
-              </span>
-              <span className="absolute -top-1 -right-3 text-xs text-yellow">TM</span>
-            </div>
-          </button>
+          <div ref={logoRef} className="flex items-center">
+            <button
+              onClick={() => scrollToSection('#home')}
+              className="flex items-center focus:outline-none focus:ring-2 focus:ring-yellow/50 rounded-lg transition-transform duration-300 hover:scale-105"
+              aria-label="Go to homepage"
+            >
+              <img
+                src="/logo.jpg"
+                alt="AutomaFlow Logo"
+                className="h-8 sm:h-10 w-auto object-contain rounded-lg bg-white"
+                style={{ maxWidth: '180px' }}
+              />
+            </button>
+          </div>
 
           {/* Desktop Navigation */}
           <div ref={linksRef} className="hidden md:flex items-center gap-8">
