@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "chmod +x node_modules/.bin/* 2>/dev/null || true"
+    "postinstall": "npm run fix:permissions",
+    "fix:permissions": "chmod +x node_modules/.bin/* 2>/dev/null; find node_modules/.bin -type f -exec dos2unix {} + 2>/dev/null; true"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
