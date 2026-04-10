@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm install && npm run build",
+  "env": {
+    "GIT_TERMINAL_PROMPT": "0"
+  }
+}
