@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Shield, Clock, Award } from 'lucide-react';
+import { ArrowRight, Shield, Clock, Award, Play, X } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -17,6 +17,9 @@ const Hero = () => {
   const particlesRef = useRef<HTMLDivElement>(null);
   
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const videoModalRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -128,6 +131,14 @@ const Hero = () => {
     duration: Math.random() * 5 + 10,
   }));
 
+  const closeVideo = () => {
+    setIsVideoOpen(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -212,6 +223,13 @@ const Hero = () => {
                 className="transition-transform duration-300 group-hover:translate-x-1"
               />
             </button>
+            <button
+              onClick={() => setIsVideoOpen(true)}
+              className="flex items-center gap-2 px-8 py-4 rounded-lg border-2 border-white/30 text-white font-semibold hover:border-yellow hover:text-yellow transition-all duration-300 hover:scale-105 hover:shadow-xl group"
+            >
+              <Play size={18} className="transition-transform duration-300 group-hover:scale-110" />
+              Watch Video
+            </button>
           </div>
 
           {/* Trust Indicators */}
@@ -241,6 +259,40 @@ const Hero = () => {
         onClose={() => setIsFormOpen(false)}
         formType="demo"
       />
+
+      {/* Video Modal */}
+      {isVideoOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+          onClick={closeVideo}
+        >
+          <div
+            ref={videoModalRef}
+            className="relative w-full max-w-5xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeVideo}
+              className="absolute -top-12 right-0 text-white hover:text-yellow transition-colors duration-300 flex items-center gap-2"
+              aria-label="Close video"
+            >
+              <X size={28} />
+              <span className="text-sm font-medium">Close</span>
+            </button>
+
+            {/* Video Player */}
+            <video
+              ref={videoRef}
+              src="/Automa Flow Video.mp4"
+              className="w-full rounded-lg shadow-2xl"
+              controls
+              autoPlay
+              playsInline
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 };
