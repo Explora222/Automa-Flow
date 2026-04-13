@@ -1,5 +1,7 @@
 {
   "env": {
     "GIT_TERMINAL_PROMPT": "0"
-  }
+  },
+  "buildCommand": "npm ci && npm run build",
+  "installCommand": "npm ci"
 }
