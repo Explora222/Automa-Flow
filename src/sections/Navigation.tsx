@@ -81,10 +81,12 @@ const Navigation = () => {
               aria-label="Go to homepage"
             >
               <img
-                src="/logo.jpg"
+                src="/AutomaFlow Logo - White.png"
                 alt="AutomaFlow Logo"
-                className="h-8 sm:h-10 w-auto object-contain rounded-lg bg-white"
-                style={{ maxWidth: '180px' }}
+                className="h-8 sm:h-9 w-auto object-contain"
+                style={{ maxWidth: '160px' }}
+                loading="eager"
+                decoding="async"
               />
             </button>
           </div>
