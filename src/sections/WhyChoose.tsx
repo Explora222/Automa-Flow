@@ -11,6 +11,23 @@ const WhyChoose = () => {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [cardsPerView, setCardsPerView] = useState(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setCardsPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setCardsPerView(2);
+      } else {
+        setCardsPerView(3);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -87,26 +104,30 @@ const WhyChoose = () => {
   const goToCard = (index: number) => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentIndex(index);
+    setCurrentIndex(Math.min(index, features.length - cardsPerView));
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
   const goNext = () => {
-    const nextIndex = (currentIndex + 1) % features.length;
-    goToCard(nextIndex);
+    const nextIndex = Math.min(currentIndex + 1, features.length - cardsPerView);
+    if (nextIndex !== currentIndex) {
+      goToCard(nextIndex);
+    }
   };
 
   const goPrev = () => {
-    const prevIndex = (currentIndex - 1 + features.length) % features.length;
-    goToCard(prevIndex);
+    const prevIndex = Math.max(currentIndex - 1, 0);
+    if (prevIndex !== currentIndex) {
+      goToCard(prevIndex);
+    }
   };
 
   const getVisibleCards = () => {
-    return [
-      currentIndex,
-      (currentIndex + 1) % features.length,
-      (currentIndex + 2) % features.length,
-    ];
+    const visible = [];
+    for (let i = currentIndex; i < currentIndex + cardsPerView; i++) {
+      visible.push(i % features.length);
+    }
+    return visible;
   };
 
   return (
@@ -140,18 +161,22 @@ const WhyChoose = () => {
 
           {/* Dots indicator */}
           <div className="flex gap-2">
-            {features.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToCard(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? 'bg-yellow w-8'
-                    : 'bg-white/20 hover:bg-white/40'
-                }`}
-                aria-label={`Go to card ${index + 1}`}
-              />
-            ))}
+            {features.map((_, index) => {
+              const maxIndex = features.length - cardsPerView;
+              if (index > maxIndex) return null;
+              return (
+                <button
+                  key={index}
+                  onClick={() => goToCard(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentIndex
+                      ? 'bg-yellow w-8'
+                      : 'bg-white/20 hover:bg-white/40'
+                  }`}
+                  aria-label={`Go to card ${index + 1}`}
+                />
+              );
+            })}
           </div>
 
           <button
@@ -170,12 +195,14 @@ const WhyChoose = () => {
         >
           <div
             className="flex transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
+            style={{ transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)` }}
           >
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="w-1/3 flex-shrink-0 px-3"
+                className={`flex-shrink-0 px-2 sm:px-3 ${
+                  cardsPerView === 1 ? 'w-full' : cardsPerView === 2 ? 'w-1/2' : 'w-1/3'
+                }`}
               >
                 <div
                   className={`group relative bg-black border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer transition-all duration-500 ${
