@@ -74,10 +74,10 @@ const Navigation = () => {
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <div ref={logoRef} className="flex items-center">
+          <div ref={logoRef} className="flex items-center min-w-0">
             <button
               onClick={() => scrollToSection('#home')}
               className="flex items-center focus:outline-none focus:ring-2 focus:ring-yellow/50 rounded-lg transition-transform duration-300 hover:scale-105"
@@ -86,7 +86,7 @@ const Navigation = () => {
               <img
                 src="/AutomaFlow Logo - White.png"
                 alt="AutomaFlow Logo"
-                className="h-8 sm:h-9 w-auto object-contain"
+                className="h-7 sm:h-8 md:h-9 w-auto object-contain"
                 style={{ maxWidth: '160px' }}
                 loading="eager"
                 decoding="async"
@@ -95,12 +95,12 @@ const Navigation = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div ref={linksRef} className="hidden md:flex items-center gap-8">
+          <div ref={linksRef} className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => (
               <button
                 key={link.name}
                 onClick={() => scrollToSection(link.href)}
-                className="text-sm font-medium text-white/80 hover:text-yellow transition-colors duration-300 relative group"
+                className="text-xs lg:text-sm font-medium text-white/80 hover:text-yellow transition-colors duration-300 relative group whitespace-nowrap"
               >
                 {link.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow transition-all duration-300 group-hover:w-full" />
@@ -112,15 +112,16 @@ const Navigation = () => {
           <button
             ref={ctaRef}
             onClick={() => scrollToSection('#contact')}
-            className="hidden md:block btn-primary text-sm py-3 px-6"
+            className="hidden md:block btn-primary text-xs lg:text-sm py-2.5 lg:py-3 px-5 lg:px-6 min-h-10 lg:min-h-11\""
           >
             Get Started
           </button>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white p-2"
+            className="md:hidden text-white p-2 -mr-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -128,20 +129,20 @@ const Navigation = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-black/95 backdrop-blur-lg border-t border-white/10 py-6">
-            <div className="flex flex-col gap-4">
+          <div className="md:hidden bg-black/95 backdrop-blur-lg border-t border-white/10 py-4 px-3">
+            <div className="flex flex-col gap-3">
               {navLinks.map((link) => (
                 <button
                   key={link.name}
                   onClick={() => scrollToSection(link.href)}
-                  className="text-left text-white/80 hover:text-yellow transition-colors duration-300 py-2"
+                  className="text-left text-white/80 hover:text-yellow transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-white/5 text-sm"
                 >
                   {link.name}
                 </button>
               ))}
               <button
                 onClick={() => scrollToSection('#contact')}
-                className="btn-primary text-sm py-3 px-6 mt-4 w-full"
+                className="btn-primary text-sm py-3 px-6 mt-2 w-full min-h-11\"
               >
                 Get Started
               </button>

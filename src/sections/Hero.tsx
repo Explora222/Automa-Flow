@@ -180,7 +180,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-16 sm:pb-20">
         <div className="max-w-3xl">
           {/* Tagline */}
           <p
@@ -193,7 +193,7 @@ const Hero = () => {
           {/* Headline */}
           <h1
             ref={headlineRef}
-            className="text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.1] tracking-tight mb-8"
+            className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-[1.1] tracking-tight mb-6 sm:mb-8"
             style={{ perspective: '1000px' }}
           >
             <span className="word inline-block">Transform</span>{' '}
@@ -205,17 +205,17 @@ const Hero = () => {
           {/* Subheadline */}
           <p
             ref={subheadlineRef}
-            className="text-lg sm:text-xl text-white/70 leading-relaxed mb-10 max-w-2xl"
+            className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed mb-8 sm:mb-10 max-w-2xl"
           >
             From manual to magical. automate workflows across HR, procurement, finance, 
             and compliance with South Africa&apos;s trusted automation platform.
           </p>
 
           {/* CTA Buttons */}
-          <div ref={ctaRef} className="flex flex-wrap gap-4 mb-12">
+          <div ref={ctaRef} className="flex flex-col xs:flex-row flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-12">
             <button
               onClick={() => setIsFormOpen(true)}
-              className="btn-primary flex items-center gap-2 group"
+              className="btn-primary flex items-center justify-center xs:justify-start gap-2 group min-h-12 xs:min-h-11 px-6 sm:px-8"
             >
               Request a Demo
               <ArrowRight
@@ -225,7 +225,7 @@ const Hero = () => {
             </button>
             <button
               onClick={() => setIsVideoOpen(true)}
-              className="flex items-center gap-2 px-8 py-4 rounded-lg border-2 border-white/30 text-white font-semibold hover:border-yellow hover:text-yellow transition-all duration-300 hover:scale-105 hover:shadow-xl group"
+              className="flex items-center justify-center xs:justify-start gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-lg border-2 border-white/30 text-white font-semibold hover:border-yellow hover:text-yellow transition-all duration-300 hover:scale-105 hover:shadow-xl group min-h-12 xs:min-h-11 text-sm sm:text-base"
             >
               <Play size={18} className="transition-transform duration-300 group-hover:scale-110" />
               Watch Video
@@ -233,18 +233,18 @@ const Hero = () => {
           </div>
 
           {/* Trust Indicators */}
-          <div ref={trustRef} className="flex flex-wrap gap-6">
+          <div ref={trustRef} className="flex flex-col xs:flex-row flex-wrap gap-4 xs:gap-6 text-xs xs:text-sm">
             <div className="flex items-center gap-2 text-white/60">
-              <Award size={18} className="text-yellow" />
-              <span className="text-sm">Trusted by 500+ organizations</span>
+              <Award size={16} className="text-yellow flex-shrink-0" />
+              <span>Trusted by 500+ organizations</span>
             </div>
             <div className="flex items-center gap-2 text-white/60">
-              <Clock size={18} className="text-yellow" />
-              <span className="text-sm">99.9% uptime guarantee</span>
+              <Clock size={16} className="text-yellow flex-shrink-0" />
+              <span>99.9% uptime guarantee</span>
             </div>
             <div className="flex items-center gap-2 text-white/60">
-              <Shield size={18} className="text-yellow" />
-              <span className="text-sm">POPIA compliant</span>
+              <Shield size={16} className="text-yellow flex-shrink-0" />
+              <span>POPIA compliant</span>
             </div>
           </div>
         </div>

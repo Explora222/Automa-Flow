@@ -130,17 +130,17 @@ const CTA = () => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col xs:flex-row flex-wrap justify-center gap-3 sm:gap-4">
             <button
               onClick={openDemoForm}
-              className="bg-black text-white font-semibold px-8 py-4 rounded-lg flex items-center gap-2 hover:bg-black/80 transition-all duration-300 hover:scale-105 hover:shadow-xl group"
+              className="bg-black text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg flex items-center justify-center xs:justify-start gap-2 hover:bg-black/80 transition-all duration-300 hover:scale-105 hover:shadow-xl group min-h-12 xs:min-h-11 text-sm sm:text-base"
             >
               Request a Demo
               <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
             </button>
             <button
               onClick={openSalesForm}
-              className="border-2 border-black text-black font-semibold px-8 py-4 rounded-lg hover:bg-black hover:text-white transition-all duration-300 hover:scale-105"
+              className="border-2 border-black text-black font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-black hover:text-white transition-all duration-300 hover:scale-105 min-h-12 xs:min-h-11 text-sm sm:text-base"
             >
               Contact Sales
             </button>

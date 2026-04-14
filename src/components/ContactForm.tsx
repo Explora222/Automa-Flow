@@ -65,23 +65,23 @@ const ContactForm = ({ isOpen, onClose, formType }: ContactFormProps) => {
       />
       
       {/* Modal */}
-      <div className="relative w-full max-w-lg bg-dark border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-scale-in">
+      <div className="relative w-full max-w-lg max-h-[90vh] bg-dark border border-white/10 rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden animate-scale-in flex flex-col">
         {/* Header */}
-        <div className="relative bg-yellow p-6">
+        <div className="relative bg-yellow p-4 sm:p-6 flex-shrink-0">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 bg-black/20 hover:bg-black/40 rounded-full flex items-center justify-center transition-colors duration-300"
+            className="absolute top-3 sm:top-4 right-3 sm:right-4 w-8 h-8 bg-black/20 hover:bg-black/40 rounded-full flex items-center justify-center transition-colors duration-300"
             aria-label="Close form"
           >
             <X size={18} className="text-black" />
           </button>
           
-          <h3 className="text-2xl font-bold text-black pr-10">{title}</h3>
-          <p className="text-black/70 mt-1">{subtitle}</p>
+          <h3 className="text-xl sm:text-2xl font-bold text-black pr-10">{title}</h3>
+          <p className="text-black/70 text-sm mt-1">{subtitle}</p>
         </div>
 
         {/* Form Content */}
-        <div className="p-6 max-h-[70vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1">
           {isSubmitted ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-yellow/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -91,10 +91,10 @@ const ContactForm = ({ isOpen, onClose, formType }: ContactFormProps) => {
               <p className="text-white/60">We&apos;ll be in touch shortly.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               {/* Name */}
               <div className="relative">
-                <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                <User size={16} className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-white/40" />
                 <input
                   type="text"
                   name="name"
@@ -102,13 +102,13 @@ const ContactForm = ({ isOpen, onClose, formType }: ContactFormProps) => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full bg-black border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors"
+                  className="w-full bg-black border border-white/10 rounded-lg pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors min-h-11"
                 />
               </div>
 
               {/* Email */}
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                <Mail size={16} className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-white/40" />
                 <input
                   type="email"
                   name="email"
@@ -116,33 +116,33 @@ const ContactForm = ({ isOpen, onClose, formType }: ContactFormProps) => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full bg-black border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors"
+                  className="w-full bg-black border border-white/10 rounded-lg pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors min-h-11"
                 />
               </div>
 
               {/* Phone */}
               <div className="relative">
-                <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                <Phone size={16} className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-white/40" />
                 <input
                   type="tel"
                   name="phone"
                   placeholder="Phone Number"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full bg-black border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors"
+                  className="w-full bg-black border border-white/10 rounded-lg pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors min-h-11"
                 />
               </div>
 
               {/* Company */}
               <div className="relative">
-                <Building size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+                <Building size={16} className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-white/40" />
                 <input
                   type="text"
                   name="company"
                   placeholder="Company Name"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full bg-black border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors"
+                  className="w-full bg-black border border-white/10 rounded-lg pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-yellow transition-colors min-h-11"
                 />
               </div>
 
