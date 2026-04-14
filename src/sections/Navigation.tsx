@@ -112,7 +112,7 @@ const Navigation = () => {
           <button
             ref={ctaRef}
             onClick={() => scrollToSection('#contact')}
-            className="hidden md:block btn-primary text-xs lg:text-sm py-2.5 lg:py-3 px-5 lg:px-6 min-h-10 lg:min-h-11\""
+            className="hidden md:block btn-primary text-xs lg:text-sm py-2.5 lg:py-3 px-5 lg:px-6 min-h-10 lg:min-h-11"
           >
             Get Started
           </button>
@@ -142,7 +142,7 @@ const Navigation = () => {
               ))}
               <button
                 onClick={() => scrollToSection('#contact')}
-                className="btn-primary text-sm py-3 px-6 mt-2 w-full min-h-11\"
+                className="btn-primary text-sm py-3 px-6 mt-2 w-full min-h-11"
               >
                 Get Started
               </button>

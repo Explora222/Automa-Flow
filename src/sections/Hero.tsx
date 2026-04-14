@@ -212,10 +212,10 @@ const Hero = () => {
           </p>
 
           {/* CTA Buttons */}
-          <div ref={ctaRef} className="flex flex-col xs:flex-row flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-12">
+          <div ref={ctaRef} className="flex flex-wrap gap-4 mb-12">
             <button
               onClick={() => setIsFormOpen(true)}
-              className="btn-primary flex items-center justify-center xs:justify-start gap-2 group min-h-12 xs:min-h-11 px-6 sm:px-8"
+              className="btn-primary flex items-center gap-2 group"
             >
               Request a Demo
               <ArrowRight
@@ -225,7 +225,7 @@ const Hero = () => {
             </button>
             <button
               onClick={() => setIsVideoOpen(true)}
-              className="flex items-center justify-center xs:justify-start gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-lg border-2 border-white/30 text-white font-semibold hover:border-yellow hover:text-yellow transition-all duration-300 hover:scale-105 hover:shadow-xl group min-h-12 xs:min-h-11 text-sm sm:text-base"
+              className="flex items-center gap-2 px-8 py-4 rounded-lg border-2 border-white/30 text-white font-semibold hover:border-yellow hover:text-yellow transition-all duration-300 hover:scale-105 hover:shadow-xl group"
             >
               <Play size={18} className="transition-transform duration-300 group-hover:scale-110" />
               Watch Video
@@ -233,7 +233,7 @@ const Hero = () => {
           </div>
 
           {/* Trust Indicators */}
-          <div ref={trustRef} className="flex flex-col xs:flex-row flex-wrap gap-4 xs:gap-6 text-xs xs:text-sm">
+          <div ref={trustRef} className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm">
             <div className="flex items-center gap-2 text-white/60">
               <Award size={16} className="text-yellow flex-shrink-0" />
               <span>Trusted by 500+ organizations</span>

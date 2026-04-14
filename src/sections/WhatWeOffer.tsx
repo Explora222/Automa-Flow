@@ -118,12 +118,12 @@ const WhatWeOffer = () => {
   const goToCard = (index: number) => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    setCurrentIndex(Math.min(index, offerings.length - cardsPerView));
+    setCurrentIndex(Math.min(index, getMaxIndex()));
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
   const goNext = () => {
-    const nextIndex = Math.min(currentIndex + 1, offerings.length - cardsPerView);
+    const nextIndex = Math.min(currentIndex + 1, getMaxIndex());
     if (nextIndex !== currentIndex) {
       goToCard(nextIndex);
     }
@@ -142,6 +142,10 @@ const WhatWeOffer = () => {
       visible.push(i % offerings.length);
     }
     return visible;
+  };
+
+  const getMaxIndex = () => {
+    return Math.max(0, offerings.length - cardsPerView);
   };
 
   return (
@@ -176,22 +180,18 @@ const WhatWeOffer = () => {
 
           {/* Dots indicator */}
           <div className="flex gap-2">
-            {offerings.map((_, index) => {
-              const maxIndex = offerings.length - cardsPerView;
-              if (index > maxIndex) return null;
-              return (
-                <button
-                  key={index}
-                  onClick={() => goToCard(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex
-                      ? 'bg-yellow w-8'
-                      : 'bg-white/20 hover:bg-white/40'
-                  }`}
-                  aria-label={`Go to card ${index + 1}`}
-                />
-              );
-            })}
+            {Array.from({ length: getMaxIndex() + 1 }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => goToCard(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? 'bg-yellow w-8'
+                    : 'bg-white/20 hover:bg-white/40'
+                }`}
+                aria-label={`Go to card ${index + 1}`}
+              />
+            ))}
           </div>
 
           <button
@@ -215,9 +215,8 @@ const WhatWeOffer = () => {
             {offerings.map((offering, index) => (
               <div
                 key={index}
-                className={`flex-shrink-0 px-2 sm:px-3 ${
-                  cardsPerView === 1 ? 'w-full' : cardsPerView === 2 ? 'w-1/2' : 'w-1/3'
-                }`}
+                className="flex-shrink-0 px-2 sm:px-3"
+                style={{ width: cardsPerView === 1 ? '100%' : cardsPerView === 2 ? '50%' : '33.333%' }}
               >
                 <div
                   className={`group relative bg-black border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer transition-all duration-500 ${
