@@ -94,25 +94,25 @@ const Promise = () => {
       number: '02',
       image: '/promise-02.jpg',
       title: 'Reliability',
-      description: 'Proven infrastructure with 99.9% uptime, resilient architecture, and full disaster recovery.',
+      description: 'Proven infrastructure with 99.9% uptime resilient architecture, and full disaster recovery.',
     },
     {
       number: '03',
       image: '/promise-03.jpg',
       title: 'Scalability',
-      description: 'Cloud or on-premises options supporting any process volume — from 10 users to 10,000.',
+      description: 'Cloud or on-premises options supporting any process volume. from 10 users to 10,000.',
     },
     {
       number: '04',
       image: '/promise-04.jpg',
       title: 'Security',
-      description: 'Enterprise-grade encryption, auditability, access control, and POPIA-ready compliance.',
+      description: 'Enterprise grade encryption, auditability, access control, and POPIA ready compliance.',
     },
     {
       number: '05',
       image: '/promise-05.jpg',
       title: 'Simplicity',
-      description: 'A low-code environment that allows any team to build and manage workflows with minimal IT dependency.',
+      description: 'A low code environment that allows any team to build and manage workflows with minimal IT dependency.',
     },
   ];
 

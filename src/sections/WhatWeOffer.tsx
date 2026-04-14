@@ -1,14 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Check } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const WhatWeOffer = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -27,28 +29,6 @@ const WhatWeOffer = () => {
             scrollTrigger: {
               trigger: sectionRef.current,
               start: 'top 70%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        );
-      }
-
-      // Cards animation
-      if (cardsRef.current) {
-        const cards = cardsRef.current.children;
-        gsap.fromTo(
-          cards,
-          { scale: 0.9, opacity: 0 },
-          {
-            scale: 1,
-            opacity: 1,
-            duration: 0.6,
-            stagger: 0.1,
-            delay: 0.3,
-            ease: 'expo.out',
-            scrollTrigger: {
-              trigger: cardsRef.current,
-              start: 'top 75%',
               toggleActions: 'play none none reverse',
             },
           }
@@ -118,6 +98,29 @@ const WhatWeOffer = () => {
     },
   ];
 
+  const goToCard = (index: number) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex(index);
+    setTimeout(() => setIsTransitioning(false), 500);
+  };
+
+  const goNext = () => {
+    const nextIndex = (currentIndex + 1) % offerings.length;
+    goToCard(nextIndex);
+  };
+
+  const goPrev = () => {
+    const prevIndex = (currentIndex - 1 + offerings.length) % offerings.length;
+    goToCard(prevIndex);
+  };
+
+  const visibleCards = [
+    currentIndex,
+    (currentIndex + 1) % offerings.length,
+    (currentIndex + 2) % offerings.length,
+  ];
+
   return (
     <section
       ref={sectionRef}
@@ -126,7 +129,7 @@ const WhatWeOffer = () => {
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16">
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-12">
           <p className="text-yellow text-sm font-semibold tracking-[0.2em] uppercase mb-4">
             What We Offer
           </p>
@@ -138,61 +141,114 @@ const WhatWeOffer = () => {
           </p>
         </div>
 
-        {/* Offerings Grid */}
+        {/* Carousel Controls */}
+        <div className="flex items-center justify-center gap-4 mb-10">
+          <button
+            onClick={goPrev}
+            className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-yellow hover:border-yellow hover:text-black transition-all duration-300 group"
+            aria-label="Previous card"
+          >
+            <ChevronLeft size={20} className="group-hover:scale-110 transition-transform" />
+          </button>
+
+          {/* Dots indicator */}
+          <div className="flex gap-2">
+            {offerings.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToCard(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? 'bg-yellow w-8'
+                    : 'bg-white/20 hover:bg-white/40'
+                }`}
+                aria-label={`Go to card ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={goNext}
+            className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-yellow hover:border-yellow hover:text-black transition-all duration-300 group"
+            aria-label="Next card"
+          >
+            <ChevronRight size={20} className="group-hover:scale-110 transition-transform" />
+          </button>
+        </div>
+
+        {/* Cards Carousel */}
         <div
-          ref={cardsRef}
-          className="grid md:grid-cols-2 gap-8"
+          ref={cardsContainerRef}
+          className="relative overflow-hidden"
         >
-          {offerings.map((offering, index) => (
-            <div
-              key={index}
-              className="group relative bg-black border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer"
-            >
-              {/* Yellow accent bar on hover */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-yellow transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-10" />
+          <div
+            className="flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
+          >
+            {offerings.map((offering, index) => (
+              <div
+                key={index}
+                className="w-1/3 flex-shrink-0 px-3"
+              >
+                <div
+                  className={`group relative bg-black border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer transition-all duration-500 ${
+                    visibleCards.includes(index)
+                      ? 'opacity-100 scale-100'
+                      : 'opacity-40 scale-95'
+                  }`}
+                >
+                  {/* Yellow accent bar on hover */}
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-yellow transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-10" />
 
-              {/* Image */}
-              <div className="relative h-52 overflow-hidden">
-                <img
-                  src={offering.image}
-                  alt={offering.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                
-                {/* Number */}
-                <span className="absolute top-4 right-4 text-5xl font-bold text-white/10 group-hover:text-yellow/20 transition-colors duration-500">
-                  {offering.number}
-                </span>
+                  {/* Image */}
+                  <div className="relative h-36 overflow-hidden">
+                    <img
+                      src={offering.image}
+                      alt={offering.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+
+                    {/* Number */}
+                    <span className="absolute top-3 right-3 text-3xl font-bold text-white/10 group-hover:text-yellow/20 transition-colors duration-500">
+                      {offering.number}
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold mb-2 group-hover:text-yellow transition-colors duration-300">
+                      {offering.title}
+                    </h3>
+                    <p className="text-white/60 text-sm leading-relaxed mb-4 line-clamp-2">
+                      {offering.description}
+                    </p>
+
+                    {/* Features */}
+                    <ul className="space-y-1.5">
+                      {offering.features.slice(0, 4).map((feature, fIndex) => (
+                        <li
+                          key={fIndex}
+                          className="flex items-center gap-2 text-xs text-white/50 group-hover:text-white/70 transition-colors duration-300"
+                          style={{
+                            transitionDelay: `${fIndex * 50}ms`,
+                          }}
+                        >
+                          <Check size={12} className="text-yellow flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                      {offering.features.length > 4 && (
+                        <li className="text-xs text-yellow/60 pl-6">
+                          +{offering.features.length - 4} more
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
               </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="text-2xl font-semibold mb-3 group-hover:text-yellow transition-colors duration-300">
-                  {offering.title}
-                </h3>
-                <p className="text-white/60 leading-relaxed mb-6">
-                  {offering.description}
-                </p>
-
-                {/* Features */}
-                <ul className="grid grid-cols-2 gap-2">
-                  {offering.features.map((feature, fIndex) => (
-                    <li
-                      key={fIndex}
-                      className="flex items-center gap-2 text-sm text-white/50 group-hover:text-white/70 transition-colors duration-300"
-                      style={{
-                        transitionDelay: `${fIndex * 50}ms`,
-                      }}
-                    >
-                      <Check size={14} className="text-yellow flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

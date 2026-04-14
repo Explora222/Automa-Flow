@@ -53,21 +53,6 @@ const Industries = () => {
             },
           }
         );
-
-        // Parallax effect on scroll
-        Array.from(cards).forEach((card, index) => {
-          const speed = index % 2 === 0 ? 1.2 : 0.8;
-          gsap.to(card, {
-            y: -20 * speed,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: gridRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-            },
-          });
-        });
       }
     }, sectionRef);
 
@@ -121,7 +106,7 @@ const Industries = () => {
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16">
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-12">
           <p className="text-yellow text-sm font-semibold tracking-[0.2em] uppercase mb-4">
             Who We Serve
           </p>
@@ -143,7 +128,7 @@ const Industries = () => {
             return (
               <div
                 key={index}
-                className="group relative h-[400px] rounded-xl overflow-hidden cursor-pointer"
+                className="group relative h-72 rounded-xl overflow-hidden cursor-pointer"
               >
                 {/* Background Image */}
                 <div className="absolute inset-0">
@@ -153,24 +138,24 @@ const Industries = () => {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
                   <div className="absolute inset-0 bg-yellow/0 group-hover:bg-yellow/10 transition-colors duration-500" />
                 </div>
 
                 {/* Content */}
-                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                <div className="absolute inset-0 p-5 flex flex-col justify-end">
                   {/* Icon */}
-                  <div className="w-12 h-12 rounded-lg bg-yellow/20 backdrop-blur-sm flex items-center justify-center mb-4 group-hover:bg-yellow group-hover:scale-110 transition-all duration-500">
-                    <Icon size={24} className="text-yellow group-hover:text-black transition-colors duration-500" />
+                  <div className="w-10 h-10 rounded-lg bg-yellow/20 backdrop-blur-sm flex items-center justify-center mb-3 group-hover:bg-yellow group-hover:scale-110 transition-all duration-500">
+                    <Icon size={20} className="text-yellow group-hover:text-black transition-colors duration-500" />
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-yellow transition-colors duration-300">
+                  <h3 className="text-base font-semibold mb-2 group-hover:text-yellow transition-colors duration-300">
                     {industry.title}
                   </h3>
 
                   {/* Description - reveals on hover */}
-                  <p className="text-white/70 text-sm leading-relaxed transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                  <p className="text-white/70 text-xs leading-relaxed transform translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                     {industry.description}
                   </p>
                 </div>

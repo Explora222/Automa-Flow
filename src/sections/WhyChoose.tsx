@@ -1,13 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const WhyChoose = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -31,28 +34,6 @@ const WhyChoose = () => {
           }
         );
       }
-
-      // Grid items stagger
-      if (gridRef.current) {
-        const items = gridRef.current.children;
-        gsap.fromTo(
-          items,
-          { y: 50, opacity: 0, scale: 0.95 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: 'expo.out',
-            scrollTrigger: {
-              trigger: gridRef.current,
-              start: 'top 75%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        );
-      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -63,19 +44,19 @@ const WhyChoose = () => {
       number: '01',
       image: '/whychoose-01.jpg',
       title: 'Local Presence, Global Standards',
-      description: 'Developed and supported in South Africa, trusted by organisations that demand world-class performance with local expertise.',
+      description: 'Developed & supported in S.A , trusted by organisations that demand world-class performance with local expertise.',
     },
     {
       number: '02',
       image: '/whychoose-02.jpg',
       title: 'Any Process. Any Business',
-      description: 'From HR onboarding and procurement to claims, compliance, and approvals — automate it all on one platform.',
+      description: 'From HR onboarding and procurement to claims, compliance, and approvals. automate it all on one platform.',
     },
     {
       number: '03',
       image: '/whychoose-03.jpg',
       title: 'Seamless Integration',
-      description: 'Connect effortlessly with your existing systems — ERP, CRM, HR, or custom apps.',
+      description: 'Connect effortlessly with your existing systems ERP, CRM, HR, or custom apps.',
     },
     {
       number: '04',
@@ -103,6 +84,31 @@ const WhyChoose = () => {
     },
   ];
 
+  const goToCard = (index: number) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex(index);
+    setTimeout(() => setIsTransitioning(false), 500);
+  };
+
+  const goNext = () => {
+    const nextIndex = (currentIndex + 1) % features.length;
+    goToCard(nextIndex);
+  };
+
+  const goPrev = () => {
+    const prevIndex = (currentIndex - 1 + features.length) % features.length;
+    goToCard(prevIndex);
+  };
+
+  const getVisibleCards = () => {
+    return [
+      currentIndex,
+      (currentIndex + 1) % features.length,
+      (currentIndex + 2) % features.length,
+    ];
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -110,7 +116,7 @@ const WhyChoose = () => {
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16">
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-12">
           <p className="text-yellow text-sm font-semibold tracking-[0.2em] uppercase mb-4">
             Why Choose AutomaFlow
           </p>
@@ -122,51 +128,93 @@ const WhyChoose = () => {
           </p>
         </div>
 
-        {/* Features Grid */}
+        {/* Carousel Controls */}
+        <div className="flex items-center justify-center gap-4 mb-10">
+          <button
+            onClick={goPrev}
+            className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-yellow hover:border-yellow hover:text-black transition-all duration-300 group"
+            aria-label="Previous card"
+          >
+            <ChevronLeft size={20} className="group-hover:scale-110 transition-transform" />
+          </button>
+
+          {/* Dots indicator */}
+          <div className="flex gap-2">
+            {features.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToCard(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? 'bg-yellow w-8'
+                    : 'bg-white/20 hover:bg-white/40'
+                }`}
+                aria-label={`Go to card ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={goNext}
+            className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-yellow hover:border-yellow hover:text-black transition-all duration-300 group"
+            aria-label="Next card"
+          >
+            <ChevronRight size={20} className="group-hover:scale-110 transition-transform" />
+          </button>
+        </div>
+
+        {/* Cards Carousel */}
         <div
-          ref={gridRef}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          ref={cardsContainerRef}
+          className="relative overflow-hidden"
         >
-          {features.map((feature, index) => {
-            const isLarge = index === 6;
-            
-            return (
+          <div
+            className="flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
+          >
+            {features.map((feature, index) => (
               <div
                 key={index}
-                className={`group relative bg-black border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer transition-all duration-500 ${
-                  isLarge ? 'md:col-span-2 lg:col-span-1' : ''
-                }`}
+                className="w-1/3 flex-shrink-0 px-3"
               >
-                {/* Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-                  
-                  {/* Number */}
-                  <span className="absolute top-4 right-4 text-4xl font-bold text-white/20 group-hover:text-yellow/40 transition-colors duration-500">
-                    {feature.number}
-                  </span>
-                </div>
+                <div
+                  className={`group relative bg-black border border-white/10 rounded-xl overflow-hidden hover-lift cursor-pointer transition-all duration-500 ${
+                    getVisibleCards().includes(index)
+                      ? 'opacity-100 scale-100'
+                      : 'opacity-40 scale-95'
+                  }`}
+                >
+                  {/* Image */}
+                  <div className="relative h-32 overflow-hidden">
+                    <img
+                      src={feature.image}
+                      alt={feature.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-3 group-hover:text-yellow transition-colors duration-300">
-                    {feature.title}
-                  </h3>
-                  <p className="text-white/60 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
+                    {/* Number */}
+                    <span className="absolute top-3 right-3 text-2xl font-bold text-white/20 group-hover:text-yellow/40 transition-colors duration-500">
+                      {feature.number}
+                    </span>
+                  </div>
 
-                {/* Hover glow */}
-                <div className="absolute inset-0 rounded-xl bg-yellow/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  {/* Content */}
+                  <div className="p-4">
+                    <h3 className="text-base font-semibold mb-2 group-hover:text-yellow transition-colors duration-300">
+                      {feature.title}
+                    </h3>
+                    <p className="text-white/60 text-sm leading-relaxed line-clamp-3">
+                      {feature.description}
+                    </p>
+                  </div>
+
+                  {/* Hover glow */}
+                  <div className="absolute inset-0 rounded-xl bg-yellow/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>

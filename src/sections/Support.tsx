@@ -168,9 +168,9 @@ const Support = () => {
           <div className="absolute bottom-6 right-6 text-6xl text-yellow/20 font-serif rotate-180">"</div>
           
           <p className="text-xl sm:text-2xl font-medium leading-relaxed mb-6 relative z-10">
-            We build long-term partnerships, ensuring our clients achieve{' '}
+            We build long term partnerships, ensuring our clients achieve{' '}
             <span className="text-yellow">measurable process improvement</span> and{' '}
-            <span className="text-yellow">ROI</span> — not just software adoption.
+            <span className="text-yellow">ROI</span> , not just software adoption.
           </p>
           
           <div className="flex items-center justify-center gap-3">

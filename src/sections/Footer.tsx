@@ -105,9 +105,9 @@ const Footer = () => {
                 aria-label="Go to homepage"
               >
                 <img
-                  src="/logo.jpg"
+                  src="/AutomaFlow Logo - White.png"
                   alt="AutomaFlow Logo"
-                  className="h-8 sm:h-10 w-auto object-contain rounded-lg bg-white"
+                  className="h-8 sm:h-10 w-auto object-contain"
                   style={{ maxWidth: '180px' }}
                 />
               </button>
@@ -158,23 +158,40 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-6">Contact</h4>
             <ul className="space-y-4">
-              <li className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-yellow/10 flex items-center justify-center flex-shrink-0">
-                  <Phone size={14} className="text-yellow" />
-                </div>
-                <span className="text-white/50 text-sm">+27 (0)72 326 4945</span>
+              <li>
+                <a
+                  href="tel:+27723264945"
+                  className="flex items-center gap-3 group"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-yellow/10 flex items-center justify-center flex-shrink-0 group-hover:bg-yellow/20 transition-colors duration-300">
+                    <Phone size={14} className="text-yellow" />
+                  </div>
+                  <span className="text-white/50 text-sm group-hover:text-yellow transition-colors duration-300">+27 (0)72 326 4945</span>
+                </a>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-yellow/10 flex items-center justify-center flex-shrink-0">
-                  <Mail size={14} className="text-yellow" />
-                </div>
-                <span className="text-white/50 text-sm">sales@automaflow.co.za</span>
+              <li>
+                <a
+                  href="mailto:sales@automaflow.co.za"
+                  className="flex items-center gap-3 group"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-yellow/10 flex items-center justify-center flex-shrink-0 group-hover:bg-yellow/20 transition-colors duration-300">
+                    <Mail size={14} className="text-yellow" />
+                  </div>
+                  <span className="text-white/50 text-sm group-hover:text-yellow transition-colors duration-300">sales@automaflow.co.za</span>
+                </a>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-yellow/10 flex items-center justify-center flex-shrink-0">
-                  <Globe size={14} className="text-yellow" />
-                </div>
-                <span className="text-white/50 text-sm">www.automaflow.co.za</span>
+              <li>
+                <a
+                  href="https://www.automaflow.co.za"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 group"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-yellow/10 flex items-center justify-center flex-shrink-0 group-hover:bg-yellow/20 transition-colors duration-300">
+                    <Globe size={14} className="text-yellow" />
+                  </div>
+                  <span className="text-white/50 text-sm group-hover:text-yellow transition-colors duration-300">www.automaflow.co.za</span>
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-yellow/10 flex items-center justify-center flex-shrink-0">

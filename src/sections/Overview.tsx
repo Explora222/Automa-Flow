@@ -106,16 +106,19 @@ const Overview = () => {
       icon: Globe,
       title: 'Local Presence, Global Standards',
       description: 'Developed and supported in South Africa, trusted by organisations worldwide.',
+      image: '/promise-01.jpg',
     },
     {
       icon: Clock,
       title: '99.9% Uptime Guarantee',
       description: 'Redundant architecture ensures your workflows run without interruption.',
+      image: '/promise-02.jpg',
     },
     {
       icon: Shield,
       title: 'POPIA Compliant',
       description: 'Designed to meet South African data protection laws and ISO security standards.',
+      image: '/promise-03.jpg',
     },
   ];
 
@@ -181,15 +184,27 @@ const Overview = () => {
                   marginLeft: index === 1 ? '20px' : index === 2 ? '40px' : '0',
                 }}
               >
+                {/* Image background */}
+                <div className="absolute inset-0 overflow-hidden rounded-xl">
+                  <img
+                    src={card.image}
+                    alt=""
+                    className="w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow/5 via-transparent to-transparent" />
+                </div>
+
                 {/* Yellow accent bar */}
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-yellow transform scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom" />
 
-                <div className="w-14 h-14 rounded-lg bg-yellow/10 flex items-center justify-center mb-6 group-hover:bg-yellow/20 transition-colors duration-300">
-                  <Icon size={28} className="text-yellow" />
-                </div>
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-lg bg-yellow/10 backdrop-blur-sm flex items-center justify-center mb-6 group-hover:bg-yellow/20 transition-colors duration-300">
+                    <Icon size={28} className="text-yellow" />
+                  </div>
 
-                <h3 className="text-xl font-semibold mb-3">{card.title}</h3>
-                <p className="text-white/60 leading-relaxed">{card.description}</p>
+                  <h3 className="text-xl font-semibold mb-3">{card.title}</h3>
+                  <p className="text-white/60 leading-relaxed">{card.description}</p>
+                </div>
               </div>
             );
           })}
